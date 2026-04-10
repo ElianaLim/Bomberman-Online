@@ -1,0 +1,50 @@
+cabal-version:   3.14
+name:            haskell-client
+version:         0.1.0.0
+license:         NONE
+author:          Eliana Mari Lim
+maintainer:      lim.eliana.mari@gmail.com
+build-type:      Simple
+extra-doc-files: CHANGELOG.md
+
+common warnings
+    ghc-options: -Wall
+
+executable haskell-client
+    import:           warnings
+    main-is:          Main.hs
+    other-modules:    
+        Types
+        Model
+        View
+        Update
+    build-depends:    
+        scientific ^>=0.3.8.0,
+        lens ^>=5.3.5,
+        base ^>=4.21.0.0,
+        aeson             >= 2.0,
+        text              >= 1.2,
+        containers        >= 0.6,
+        bytestring        >= 0.10
+    
+    hs-source-dirs:   src
+    default-language: Haskell2010
+    
+    -- Development mode: use jsaddle-warp with regular GHC
+    if !impl(ghcjs)
+        build-depends:
+            miso >= 1.8,
+            jsaddle >= 0.9,
+            jsaddle-warp >= 0.9,
+            warp >= 3.2,
+            websockets >= 0.12,
+            transformers >= 0.5
+        cpp-options: -DGHCJS_BROWSER
+        ghc-options: -Wall -threaded
+    
+    -- Production mode: compile to JavaScript with GHCJS
+    if impl(ghcjs)
+        build-depends:
+            miso >= 1.8,
+            ghcjs-base
+        ghc-options: -Wall -dedupe
