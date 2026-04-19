@@ -4,7 +4,7 @@ A multiplayer **Bomberman** clone built using a **thick-server, thin-client** ar
 
 Two complete implementations were built — one in **Dart** (using Flutter + Flame) and one in **Haskell** (using Miso) — with a shared JSON-over-WebSocket protocol. Cross-pairing (any client ↔ any server) is supported up to Phase 4; see [Branches](#branches) below.
 
-> **LLM Attribution:** This project made use of LLMs (Claude, ChatGPT) during development. Prompt logs are in [`llm-dart.pdf`](llm-dart.pdf) and [`llm-haskell.pdf`](llm-haskell.pdf) as required by course policy.
+> **LLM Attribution:** This project made use of LLMs (Claude, ChatGPT) during development. Prompt logs are in [llm-dart.pdf](https://drive.google.com/file/d/11bo0F-6ioywxWLuxIBMjbbPVvPiEumvf/view?usp=sharing) and [llm-haskell.pdf](https://drive.google.com/file/d/1RE6sDbvJdc7Rxg1AAMYzlMtQql-oemXT/view?usp=sharing) as required by course policy.
 
 ---
 
@@ -37,51 +37,30 @@ Phase scoring reference: Phase 3 = 100/100, Phase 4 = 110/100, Phase 5 = 120/100
 
 ## Features
 
-### Phase 1 — Single-machine game
+### Core (both Dart and Haskell)
 - 15×13 grid with hard (indestructible) and soft (destructible) blocks
 - Smooth sub-cell player movement with collision detection against blocks and bombs
 - Bomb planting (Spacebar), 3-second fuse, 1-second explosion with chain reactions
 - Soft blocks destroyed by explosions; walking into lingering explosions eliminates the player
-- 1-minute countdown timer (mm:ss); game ends on player death or timer expiry
-- Game-over screen with movement/bomb input disabled
+- **Powerups** drop from destroyed soft blocks (10% chance each): Fire Up, Bomb Up, Speed Up
+- 2–4 player LAN multiplayer over WebSockets + JSON; configurable port and player count
+- Configurable countdown timer (30–600 seconds)
+- Randomly generated soft blocks (40% spawn chance per free cell)
+- Distinct sprites for all four players; sound effects for explosions, death, powerups, win/lose/draw
+- Win/draw logic with a 1-second delay after elimination; simultaneous elimination results in a draw
 
-### Phase 2 — Client–server split via WebSockets
-- Server and client are separate programs communicating over WebSockets + JSON
-- Server listens on port 15000; client connects to `ws://127.0.0.1:15000`
-- Players can walk through each other (no player–player collision)
-- **Powerups** drop from destroyed soft blocks (10% chance each):
-  - 🔥 **Fire Up** — increases explosion range by 1
-  - 💣 **Bomb Up** — increases maximum active bombs by 1
-  - ⚡ **Speed Up** — increases movement speed
-- Spacebar must be released and re-pressed between bombs
-- Unique sprites for all game entities; sound effects for explosions, death, and powerup collection
-
-### Phase 3 — Two-player LAN multiplayer
-- Game waits for exactly 2 clients before starting; further connections are rejected
-- First client is P1, second is P2 — each with a distinct sprite color palette and label
-- Playable over LAN (configurable server IP and port via command-line arguments)
-- Win/draw logic: 1-second delay after a player is eliminated before declaring a winner; simultaneous elimination results in a draw
-- Win, lose, and draw sound effects
-
-### Phase 4 — 2–4 player support with configurable settings
-- Server accepts 2, 3, or 4 players (validated; invalid values abort startup)
-- Timer duration is configurable (30–600 seconds, validated)
-- Soft blocks are **randomly generated** — each free cell has a 40% spawn chance
-- Player sprites for all four players are easily distinguishable
-
-### Phase 5 (Dart only, bonus) — In-game lobby menu
-- No command-line flags needed; the program opens a menu on startup
-- **Host** flow: configure port, number of players (2–5), and timer; lobby shows connected players; all must confirm before the game starts
+### Dart only (Phase 5 bonus)
+- In-game lobby menu — no command-line flags needed
+- **Host** flow: configure port, number of players (2–5), and timer; lobby shows connected players; all must confirm before starting
 - **Join** flow: enter host IP and port; lobby shown on successful connection
-- The hosting player is automatically assigned P1
-- 3-second countdown ("3 / 2 / 1") before gameplay; movement and bombs disabled during countdown
+- 3-second countdown ("3 / 2 / 1") before gameplay
 - Full directional walking animations, animated bombs, explosions, powerups, and soft-block destruction
 
 ---
 
 ## Architecture
 
-```text
+<!-- ```text
                          ┌─────────────────────────────────────┐
                          │         AUTHORITATIVE SERVER        │
                          │   (either Dart Server or Haskell)   │
@@ -116,9 +95,37 @@ Phase scoring reference: Phase 3 = 100/100, Phase 4 = 110/100, Phase 5 = 120/100
         │ - sends player input │   │ - sends player input │   │ - sends player input  │
         │ - renders game state │   │ - renders game state │   │ - renders game state  │
         └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
-```
+``` -->
+
+**TODO: Architecture Diagram**
 
 The server is the single source of truth. Clients only send input events (move, plant bomb) and render whatever state they receive.
+
+---
+
+## Prerequisites
+
+### Dart
+
+- **Flutter SDK** (includes Dart) — install via [flutter.dev](https://docs.flutter.dev/get-started/install)
+  - Dart SDK ≥ 3.9.2 is required (bundled with Flutter)
+- Verify your setup: `flutter doctor`
+- Install dependencies: `cd dart_project && flutter pub get`
+
+### Haskell
+
+- **GHC 9.12.x** and **Cabal 3.14+** — install via [GHCup](https://www.haskell.org/ghcup/)
+  ```bash
+  ghcup install ghc 9.12
+  ghcup install cabal 3.14
+  ghcup set ghc 9.12
+  ```
+- Build dependencies (run once per project):
+  ```bash
+  cd haskell-project/haskell-server && cabal build
+  cd haskell-project/haskell-client && cabal build
+  ```
+- The Haskell client runs as a local web server in dev mode — open the printed URL in a browser after starting it.
 
 ---
 
@@ -187,13 +194,14 @@ cd dart_project && flutter run
 
 ## Technologies
 
-| Layer           | Dart                           | Haskell                        |
-|-----------------|--------------------------------|--------------------------------|
-| Game engine     | Flame 1.34                     | Miso (compiled to JS)          |
-| Networking      | `web_socket_channel`, Shelf    | `websockets`, `warp`           |
-| Serialization   | `dart:convert` (JSON)          | `aeson`                        |
-| Audio           | `flame_audio`                  | JSaddle FFI (`Audio` API)      |
-| UI              | Flutter widgets + Flame overlays | Miso HTML + Canvas           |
+| Layer                | Dart                                        | Haskell                              |
+|----------------------|---------------------------------------------|--------------------------------------|
+| Game engine (client) | Flame 1.34                                  | Miso (via GHCJS or jsaddle-warp)     |
+| Networking (server)  | `shelf`, `shelf_web_socket`, `shelf_router` | `websockets`                         |
+| Networking (client)  | `web_socket_channel`                        | `Miso.Subscription.WebSocket` (browser WebSocket API via jsaddle-warp / GHCJS) |
+| Serialization        | `dart:convert` (built-in JSON)              | `aeson`                              |
+| Audio                | `flame_audio`                               | Web Audio API via JSaddle FFI        |
+| UI                   | Flutter widgets + Flame overlays            | Miso HTML + Canvas                   |
 
 ---
 
