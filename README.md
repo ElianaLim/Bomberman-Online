@@ -207,6 +207,8 @@ cd dart_project && flutter run
 
 ## Team
 
+Each member implemented a unique gameplay option on top of the shared Phase 3 base. The **Part 2 Option** column describes their individual feature, and **Pair** shows which server–client combination they used. The linked videos are live coding sessions of each member implementing their feature.
+
 | Member              | Part 2 Option          | Pair                          | Video |
 |---------------------|------------------------|-------------------------------|-------|
 | Fan Anjelo Gabrielli | Option 2: Teleport    | Haskell Server + Dart Client  | [Watch](https://drive.google.com/file/d/1Yhlzh3FrZ2RhqVLJZy4uGCptKG16Vutc/view?usp=sharing) |
