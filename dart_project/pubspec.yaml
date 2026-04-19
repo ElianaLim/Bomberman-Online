@@ -1,0 +1,156 @@
+name: dart_client
+description: "A new Flutter project."
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.9.2
+
+# Dependencies specify other packages that your package needs in order to work.
+# To automatically upgrade your package dependencies to the latest versions
+# consider running `flutter pub upgrade --major-versions`. Alternatively,
+# dependencies can be manually updated by changing the version numbers below to
+# the latest version available on pub.dev. To see which dependencies have newer
+# versions available, run `flutter pub outdated`.
+dependencies:
+  flutter:
+    sdk: flutter
+  path_provider: ^2.0.0
+  cupertino_icons: ^1.0.8
+  shelf: ^1.4.2
+  shelf_router: ^1.1.2
+  shelf_web_socket: ^3.0.0
+  web_socket_channel: ^3.0.3
+  flame: ^1.34.0
+  flame_audio: ^1.3.0   
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+
+flutter:
+
+  uses-material-design: true
+
+  fonts:
+    - family: Daydream
+      fonts:
+        - asset: assets/fonts/Daydream.otf
+  assets:
+    - assets/images/Logo.png
+    - assets/images/0.png
+    - assets/images/1.png
+    - assets/images/2.png
+    - assets/images/3.png
+    - assets/images/4.png
+    - assets/images/5.png
+    - assets/images/6.png
+    - assets/images/7.png
+    - assets/images/8.png
+    - assets/images/9.png
+    - assets/images/10.png
+    - assets/images/bomb.png
+    - assets/images/bomb_exploding.png
+    - assets/images/bombUp.png
+    - assets/images/explosion_center.png
+    - assets/images/explosion_middle_horizontal.png
+    - assets/images/explosion_middle_vertical.png
+    - assets/images/explosion_tip_bottom.png
+    - assets/images/explosion_tip_top.png
+    - assets/images/explosion_tip_left.png
+    - assets/images/explosion_tip_right.png
+    - assets/images/fireUp.png
+    - assets/images/hard_block.png
+    - assets/images/heart.png
+    - assets/images/HUD.png
+    - assets/images/HUD_5.png
+    - assets/images/Player_1_down.png
+    - assets/images/Player_1_exploding.png
+    - assets/images/Player_1_left.png
+    - assets/images/Player_1_right.png
+    - assets/images/Player_1_up.png
+    - assets/images/Player_1_walking_down.png
+    - assets/images/Player_1_walking_left.png
+    - assets/images/Player_1_walking_right.png
+    - assets/images/Player_1_walking_up.png
+    - assets/images/Player_2_down.png
+    - assets/images/Player_2_exploding.png
+    - assets/images/Player_2_left.png
+    - assets/images/Player_2_right.png
+    - assets/images/Player_2_up.png
+    - assets/images/Player_2_walking_down.png
+    - assets/images/Player_2_walking_left.png
+    - assets/images/Player_2_walking_right.png
+    - assets/images/Player_2_walking_up.png
+    - assets/images/Player_3_down.png
+    - assets/images/Player_3_exploding.png
+    - assets/images/Player_3_left.png
+    - assets/images/Player_3_right.png
+    - assets/images/Player_3_up.png
+    - assets/images/Player_3_walking_down.png
+    - assets/images/Player_3_walking_left.png
+    - assets/images/Player_3_walking_right.png
+    - assets/images/Player_3_walking_up.png
+    - assets/images/Player_4_down.png
+    - assets/images/Player_4_exploding.png
+    - assets/images/Player_4_left.png
+    - assets/images/Player_4_right.png
+    - assets/images/Player_4_up.png
+    - assets/images/Player_4_walking_down.png
+    - assets/images/Player_4_walking_left.png
+    - assets/images/Player_4_walking_right.png
+    - assets/images/Player_4_walking_up.png
+    - assets/images/soft_block.png
+    - assets/images/soft_block_exploding.png
+    - assets/images/walkable_block.png
+    - assets/images/speedUp.png
+    - assets/images/vest.png
+    - assets/audio/death.mp3
+    - assets/audio/draw.mp3
+    - assets/audio/explosion.mp3
+    - assets/audio/lose.mp3
+    - assets/audio/powerup.mp3
+    - assets/audio/win.mp3
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/to/resolution-aware-images
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/to/asset-from-package
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/to/font-from-package
